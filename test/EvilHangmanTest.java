@@ -1,6 +1,8 @@
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +23,9 @@ public class EvilHangmanTest {
 		assertEquals("", hm.getSecretWord()); // unknown at first
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(0, temp.size());
+		assertTrue(temp.isEmpty());
 		assertFalse(hm.gameOver());
 	}
 
@@ -33,7 +37,9 @@ public class EvilHangmanTest {
 
 		assertEquals(7, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -46,7 +52,10 @@ public class EvilHangmanTest {
 
 		assertEquals(6, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("SP", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(2, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
+		assertEquals("P", Character.toString(temp.get(1)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -56,7 +65,9 @@ public class EvilHangmanTest {
 		assertFalse(correct);
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(0, temp.size());
+		assertTrue(temp.isEmpty());
 		assertFalse(hm.gameOver());
 	}
 
@@ -69,7 +80,9 @@ public class EvilHangmanTest {
 		
 		assertEquals(7, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("A", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("A", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 	

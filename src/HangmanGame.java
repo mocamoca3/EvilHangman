@@ -1,14 +1,18 @@
+import java.util.ArrayList;
+
 public class HangmanGame{
 	
 	private String secretWord = "";//To store the secret word
     private int remainingGuesses;//to store the number of guesses for the user
     private String state = "";//store the current guessing situation
-    private String letterGuessHistory = "";//store the letter user has tried
+   // private String letterGuessHistory = "";//store the letters that the user has tried
     private int letterLeftNum;//to store the number of the letters in the secret word has not been guessed correctly
 
+    private ArrayList<Character> letterGuessHistory;
     
     protected HangmanGame(int numGuesses){
     	remainingGuesses = numGuesses;
+    	letterGuessHistory = new ArrayList<Character>();
     }
     
     /**
@@ -67,39 +71,47 @@ public class HangmanGame{
     }
     
     /**
-     * A String representing the letters guessed so far in the order they were guessed.
+     * An ArrayList representing the letters guessed so far in the order they were guessed.
      * Duplicates should not be added.
      * @return a String showing which letters have already been guessed.
      */
-    protected String lettersGuessed(){
+    protected ArrayList<Character> lettersGuessed(){
     	return letterGuessHistory;
     }
     
     //setter method for letterGuessHistory
     protected void addGuessedLetter(char c){
-    	letterGuessHistory = letterGuessHistory + c;
+    	letterGuessHistory.add(c);
     }
+    
+    //setter method for letterGuessHistory
+    //will only be used by NormalHangMan
+    protected void setLetterHistory(ArrayList<Character> history){
+    	letterGuessHistory = history;
+    }
+  
+    
+    
     
     //method that checks whether a character already exists in the LetterGuessHistory
     protected boolean RepeatInput(char c)
     {
-    	for (int i = 0; i < letterGuessHistory.length(); i++) {
-    		if (letterGuessHistory.charAt(i) == c) return true;
-    	}
-    	return false;
+    	return letterGuessHistory.contains(c);
     }
     
-    //needs to be overrode
+    /************METHODS THAT ARE OVERRIDDEN************/
+    
+    //needs to be overrode by subclasses
     protected boolean makeGuess(char c){
     	return false;
     }
     
-    //needs to be overrode
+    //needs to be overrode by subclasses
     protected boolean isWin(){
     	return false;
     }
     
-    //needs to be overrode
+    //needs to be overrode by subclasses
     protected boolean gameOver(){
     	return false;
     }

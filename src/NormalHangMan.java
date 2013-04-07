@@ -19,9 +19,10 @@ public class NormalHangMan extends HangmanGame{
      * @param secretWord the word that the player is trying to guess
      * @param numGuesses the number of guesses allowed
      */
-    public NormalHangMan(String secretWord, int numGuesses, String LetterHistory){
+    public NormalHangMan(String secretWord, int numGuesses, ArrayList<Character> letterHistory){
     	super(numGuesses);
         setSecretWord(secretWord);
+        setLetterHistory(letterHistory);
         setLettersRemaining(secretWord.length());
         for(int i = 0; i < secretWord.length(); i++)
         {

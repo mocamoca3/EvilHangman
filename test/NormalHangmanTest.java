@@ -1,6 +1,8 @@
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,10 +11,11 @@ public class NormalHangmanTest {
 	
 	private NormalHangMan hm;
 	private final String WORD = "SPONGEBOB";
+	private ArrayList<Character> history = new ArrayList<Character>();
 
 	@Before
 	public void setUp() throws Exception {
-		hm = new NormalHangMan(WORD, 8, "");
+		hm = new NormalHangMan(WORD, 8, history);
 	}
 	
 	@Test
@@ -22,7 +25,9 @@ public class NormalHangmanTest {
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals(7, hm.numLettersRemaining()); // because the word has 7 distinct letters
 		assertEquals("_ _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(0, temp.size());
+		assertTrue(temp.isEmpty());
 		assertFalse(hm.gameOver());
 	}
 
@@ -35,7 +40,9 @@ public class NormalHangmanTest {
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals(6, hm.numLettersRemaining());
 		assertEquals("S _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -48,7 +55,9 @@ public class NormalHangmanTest {
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals(6, hm.numLettersRemaining());
 		assertEquals("_ _ O _ _ _ _ O _ ", hm.displayGameState());
-		assertEquals("O", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("O", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 
@@ -63,7 +72,10 @@ public class NormalHangmanTest {
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals(5, hm.numLettersRemaining());
 		assertEquals("S P _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("SP", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(2, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
+		assertEquals("P", Character.toString(temp.get(1)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -76,7 +88,9 @@ public class NormalHangmanTest {
 		assertEquals(7, hm.numGuessesRemaining());
 		assertEquals(7, hm.numLettersRemaining());
 		assertEquals("_ _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("K", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("K", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -91,7 +105,10 @@ public class NormalHangmanTest {
 		assertEquals(6, hm.numGuessesRemaining());
 		assertEquals(7, hm.numLettersRemaining());
 		assertEquals("_ _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("KT", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(2, temp.size());
+		assertEquals("K", Character.toString(temp.get(0)));
+		assertEquals("T", Character.toString(temp.get(1)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -110,7 +127,12 @@ public class NormalHangmanTest {
 		assertEquals(6, hm.numGuessesRemaining());
 		assertEquals(5, hm.numLettersRemaining());
 		assertEquals("S P _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("STPK", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(4, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
+		assertEquals("T", Character.toString(temp.get(1)));
+		assertEquals("P", Character.toString(temp.get(2)));
+		assertEquals("K", Character.toString(temp.get(3)));
 		assertFalse(hm.gameOver());
 	}
 	
@@ -120,7 +142,9 @@ public class NormalHangmanTest {
 		assertFalse(correct);
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("_ _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(0, temp.size());
+		assertTrue(temp.isEmpty());
 		assertFalse(hm.gameOver());
 	}
 
@@ -133,7 +157,9 @@ public class NormalHangmanTest {
 		
 		assertEquals(8, hm.numGuessesRemaining());
 		assertEquals("S _ _ _ _ _ _ _ _ ", hm.displayGameState());
-		assertEquals("S", hm.lettersGuessed());
+		ArrayList<Character> temp = hm.lettersGuessed();
+		assertEquals(1, temp.size());
+		assertEquals("S", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
 
