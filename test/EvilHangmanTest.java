@@ -85,16 +85,6 @@ public class EvilHangmanTest {
 		assertEquals("A", Character.toString(temp.get(0)));
 		assertFalse(hm.gameOver());
 	}
-	
-	@Test
-	public void testSecretWord() {
-		// after one guess, the secret word changes 
-		hm.makeGuess('A');
-		assertEquals("BEBOPS", hm.getSecretWord()); // don't ask how I know that
-		// after another guess, it changes again! 
-		hm.makeGuess('B');
-		assertEquals("CEDERS", hm.getSecretWord()); // don't ask how I know that
-	}
 
 	
 	@Test

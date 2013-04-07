@@ -2,13 +2,11 @@ import java.util.*;
 import java.io.*;
 
 public class EvilHangMan extends HangmanGame {
-	private String[] Wordlist = new String[235000];// to store the dictionary
-	private int numWords = 0;// count the number of possible secret words.
-	private int secretStringLength;// the length of the secret string
-
+	
+	private HashSet<String> legalWords = new HashSet<String>(235000);
+	
 	public EvilHangMan(int StringLength, int numGuesses) {
 		super(numGuesses);
-		secretStringLength = StringLength;
 		setLettersRemaining(26);
 		Scanner Scanner = null;
 		try {
@@ -20,12 +18,13 @@ public class EvilHangMan extends HangmanGame {
 		while (Scanner.hasNext()) {
 			String temp = Scanner.nextLine().toUpperCase();
 			if (temp.length() == StringLength) {
-				Wordlist[i] = temp;
+				legalWords.add(temp);
 				i++;
-				numWords++;
 			}
 		}
-
+		//at this point, legalWords should only contain upper-case
+		//strings of the appropriate length
+		
 		for (i = 0; i < StringLength; i++) {
 			setGameState(displayGameState() + "_ ");
 		}
@@ -49,59 +48,49 @@ public class EvilHangMan extends HangmanGame {
 	public boolean makeGuess(char ch) {
 		boolean guessResult = false;
 		char letterGuess = ch;
+		String charString = Character.toString(ch);
+		String next = null;
+		boolean legalWordAvailable = false;
+		//if there is a legal word available in the list after iterating through it
+		//and ignoring words containing the guessed letter, this variable will be true
+		//we can proceed to delete words that contain the guessed letter
 		if (Character.isLetter(letterGuess) && !RepeatInput(letterGuess)) {
 			// adjust the Wordlist in order to avoid the word with the letter
 			// user guessed
-			int tempWordNum = 0;
-			for (int i = 0; i < numWords; i++) {
-				for (int j = 0; j < secretStringLength; j++) {
-					if (Wordlist[i].charAt(j) == letterGuess) {
-						break;
-					} else {
-						if (j == secretStringLength - 1) {
-							if (Wordlist[i].charAt(j) != letterGuess) {
-								tempWordNum++;
-							}
-						}
-					}
+			Iterator<String> iter = legalWords.iterator();
+			while(iter.hasNext()){
+				next = iter.next(); 
+				if(!next.contains(charString)){
+					legalWordAvailable = true;
 				}
 			}
-			// we choose the words that don't contain the letter the user
-			// guessed, and they will be the new possible secret words.
-			String[] temp = new String[tempWordNum];
-			int tempIndex = 0;
-			for (int i = 0; i < numWords; i++) {
-				for (int j = 0; j < secretStringLength; j++) {
-					if (Wordlist[i].charAt(j) == letterGuess) {
-						break;
-					} else {
-						if (j == secretStringLength - 1) {
-							if (Wordlist[i].charAt(j) != letterGuess) {
-								temp[tempIndex] = Wordlist[i];
-								tempIndex++;
-							}
-						}
-					}
-				}
-			}
-			if (tempWordNum == 0) {
-				setSecretWord(Wordlist[0]);
+			if(!legalWordAvailable){
+				//if legalWordAvailable is false, there would be no words left if we 
+				//deleted the words containing the guessed letter
+				setSecretWord(next);
 				guessResult = true;
-			} 
-			else {
-				setSecretWord(temp[0]);
-				numWords = tempWordNum;
-				Wordlist = temp;
+			}
+			else{
+				//if legalWordAvailable is true, then we can proceed to modify the wordlist
+				Iterator<String> modifyIter = legalWords.iterator();
+				while(modifyIter.hasNext()){
+					next = modifyIter.next();
+					if(next.contains(charString)){
+						modifyIter.remove();
+					}
+				}
+				setSecretWord(next);
 				decGuessesRemaining();
 				guessResult = false;
 			}
-			if (!guessResult) {
+			if (!guessResult) {//if the guess was incorrect,
 				addGuessedLetter(letterGuess);
 			}
 
-		} else return false;
+		} 
+		else return false;//if it is not a letter or is a repeat
 		
-		return guessResult;
+		return guessResult;//whether or not the guess was successful
 	}
 
 

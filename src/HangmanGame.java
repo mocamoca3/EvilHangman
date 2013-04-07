@@ -6,7 +6,8 @@ public class HangmanGame{
     private int remainingGuesses;//to store the number of guesses for the user
     private String state = "";//store the current guessing situation
    // private String letterGuessHistory = "";//store the letters that the user has tried
-    private int letterLeftNum;//to store the number of the letters in the secret word has not been guessed correctly
+    private int letterLeftNum;
+    //to store the number of the letters in the secret word has not been guessed correctly
 
     private ArrayList<Character> letterGuessHistory;
     
