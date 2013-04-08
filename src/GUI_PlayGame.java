@@ -81,55 +81,12 @@ public class GUI_PlayGame implements ActionListener
         temp.setEnabled(false);
         InputLetter = temp.getText().charAt(0);
         check(InputLetter); // make sure it's a valid choice
-        controller();
-    }
-
-    
-    /*
-     * This handles the logic of sending info to the Game object.
-     */
-    public void controller()
-    {
-        //handle the user choice, and pass the data to the model
-        char nextLetter = Character.toUpperCase(InputLetter);
-
-        if(game.makeGuess(nextLetter))
-        {
-            if(IsEvil)//judge whether the hangman is evil
-            {
-                //if in the evil statement, and the user guess right, 
-            	// it means it is the time to turn the evil to the regular hangmam
-                result.setText("Yes!");
-                String RealSecretString = game.getSecretWord();
-                int GuessRemaining = game.numGuessesRemaining();
-                ArrayList<Character> LetterHistory = game.lettersGuessed();
-                game = new NormalHangMan(RealSecretString, GuessRemaining, LetterHistory);//turn the evil to regular hangman
-                IsEvil = false;
-                game.makeGuess(nextLetter);//re-value the user guess when turn to the regular hangman for the first time
-            }
-            else
-            {
-                result.setText("Yes!");
-            }
-        }
-        else
-        {
-            result.setText("Nope!");
-        }
-
-        label2.setText("Secret Word: "+game.displayGameState());
-        label3.setText(String.valueOf("Guesses Remaining: "+ game.numGuessesRemaining()));
-        if(game.gameOver())
-        {
-            if(game.isWin())
-            {
-                new GUI_Winner(game.displayGameState(),frame);
-            }
-            else
-            {
-                new GUI_Loser(game.getSecretWord(),frame);
-            }
-        }
+        
+        //replacement code for controller method
+        game = game.controller(InputLetter, IsEvil, label2, label3, frame);
+        result.setText(game.getResultText());
+        IsEvil = game.getEvil();
+        //POSSIBLE MOVE DESTINATION
     }
 
     public boolean check(char input)

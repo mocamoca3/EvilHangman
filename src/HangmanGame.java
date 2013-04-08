@@ -1,15 +1,22 @@
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+
 public class HangmanGame{
 	
 	private String secretWord = "";//To store the secret word
     private int remainingGuesses;//to store the number of guesses for the user
     private String state = "";//store the current guessing situation
-   // private String letterGuessHistory = "";//store the letters that the user has tried
+    // private String letterGuessHistory = "";//store the letters that the user has tried
     private int letterLeftNum;
     //to store the number of the letters in the secret word has not been guessed correctly
-
     private ArrayList<Character> letterGuessHistory;
+    
+    //variables for controller
+    private String setText;
+    private boolean isEvil;
     
     protected HangmanGame(int numGuesses){
     	remainingGuesses = numGuesses;
@@ -91,9 +98,6 @@ public class HangmanGame{
     	letterGuessHistory = history;
     }
   
-    
-    
-    
     //method that checks whether a character already exists in the LetterGuessHistory
     protected boolean RepeatInput(char c)
     {
@@ -115,6 +119,71 @@ public class HangmanGame{
     //needs to be overrode by subclasses
     protected boolean gameOver(){
     	return false;
+    }
+    
+    /******CONTROLLER HELPER METHODS*****/
+    protected String getResultText(){
+    	return setText;
+    }
+    
+    protected boolean getEvil(){
+    	return isEvil;
+    }
+    
+    /******************GAME LOGIC******************/
+    
+    /*
+     * This handles the logic of sending info to the Game object.
+     */
+    
+    public HangmanGame controller(char InputLetter, boolean IsEvil, JLabel label2, JLabel label3, JFrame frame)
+    {
+    	isEvil = IsEvil;
+    	HangmanGame game = this;
+    	//handle the user choice, and pass the data to the model
+        char nextLetter = Character.toUpperCase(InputLetter);
+
+        if(game.makeGuess(nextLetter))
+        {
+            if(game.getEvil())//judge whether the hangman is evil
+            {
+                //if in the evil statement, and the user guess right, 
+            	//it means it is the time to turn the evil to the regular hangmam
+                
+                String RealSecretString = game.getSecretWord();
+                int GuessRemaining = game.numGuessesRemaining();
+                ArrayList<Character> LetterHistory = game.lettersGuessed();
+                game = new NormalHangMan(RealSecretString, GuessRemaining, LetterHistory);//turn the evil to regular hangman
+                game.isEvil = false;
+                game.setText = "Yes!";
+                game.makeGuess(nextLetter);
+                //re-value the user guess when turn to the regular hangman for the first time
+            }
+            else
+            {
+                setText = "Yes!";
+            }
+        }
+        else
+        {
+            setText = "Nope!";
+        }
+        //POSSIBLE MOVE BEGIN
+        label2.setText("Secret Word: " + game.displayGameState());
+        label3.setText(String.valueOf("Guesses Remaining: " + game.numGuessesRemaining()));
+        if(game.gameOver())
+        {
+            if(game.isWin())
+            {
+                new GUI_Winner(game.displayGameState(),frame);
+            }
+            else
+            {
+                new GUI_Loser(game.getSecretWord(),frame);
+            }
+        }
+        //POSSIBLE MOVE END
+        return game;
     }
     
 }
