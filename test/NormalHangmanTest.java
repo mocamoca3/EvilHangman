@@ -9,13 +9,13 @@ import org.junit.Test;
 
 public class NormalHangmanTest {
 	
-	private NormalHangMan hm;
+	private NormalHangman hm;
 	private final String WORD = "SPONGEBOB";
 	private ArrayList<Character> history = new ArrayList<Character>();
 
 	@Before
 	public void setUp() throws Exception {
-		hm = new NormalHangMan(WORD, 8, history);
+		hm = new NormalHangman(WORD, 8, history);
 	}
 	
 	@Test

@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 public class Start extends JPanel
                            implements ActionListener {
     static JFrame frame;
-    String numLetters, numGuesses;
+    private String numLetters, numGuesses;
     private JComboBox patternList, patternList1;
  
     public Start() {

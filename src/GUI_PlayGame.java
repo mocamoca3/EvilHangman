@@ -2,7 +2,6 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class GUI_PlayGame implements ActionListener
 {
@@ -18,7 +17,7 @@ public class GUI_PlayGame implements ActionListener
 
     public GUI_PlayGame(int letters, int guesses)
     {
-    	game = new EvilHangMan(letters, guesses);
+    	game = new EvilHangman(letters, guesses);
     	
     }
     
@@ -27,7 +26,8 @@ public class GUI_PlayGame implements ActionListener
      * opens a new window.
      */
     public void show() {
-
+    	//not convinced that this method is correctly named for the functionality
+    	//that it contains
     	frame = new JFrame("Evil Hangman");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(360,370));
@@ -58,13 +58,14 @@ public class GUI_PlayGame implements ActionListener
         frame.add(hangmanPic);
         
         //add user choice
-        for(int i = 65; i<91;i++)
-        {
+        //variable i represents the decimal value of a character. 
+        //65-90 are the 26 letters of the alphabet
+        JButton tempBtn;
+        for(int i = 65; i<91 ;i++){
             char x = (char)i;
-            JButton tempBtn = new JButton(String.valueOf(x));
+            tempBtn = new JButton(String.valueOf(x));
             tempBtn.addActionListener(this);
-            frame.add(tempBtn);
-            
+            frame.add(tempBtn);  
         }
         
         frame.setResizable(false);

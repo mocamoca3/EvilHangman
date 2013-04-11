@@ -8,7 +8,7 @@
  * <p>This class can then be used by a user interface to administer a regular game of Hangman.</p>
  */
 import java.util.*;
-public class NormalHangMan extends HangmanGame{
+public class NormalHangman extends HangmanGame{
     /**
      * Constructor sets up the game to be played with a word and some number of
      * guesses.  The class should have private variables that keep track of:
@@ -19,23 +19,23 @@ public class NormalHangMan extends HangmanGame{
      * @param secretWord the word that the player is trying to guess
      * @param numGuesses the number of guesses allowed
      */
-    public NormalHangMan(String secretWord, int numGuesses, ArrayList<Character> letterHistory){
+    public NormalHangman(String secretWord, int numGuesses, ArrayList<Character> letterHistory){
     	super(numGuesses);
         setSecretWord(secretWord);
         setLetterHistory(letterHistory);
         setLettersRemaining(secretWord.length());
-        for(int i = 0; i < secretWord.length(); i++)
-        {
-            setGameState(displayGameState() + "_ ");
-            for(int j = i; j > 0; j--)
-            {
-                if(secretWord.charAt(i) == secretWord.charAt(j-1))
-                {
-                    decLettersRemaining();//If the letter appears many times in the secret word, it will be counted just once.
+        String state = "";
+        for(int i = 0; i < secretWord.length(); i++){
+        	state = state + "_ ";
+            for(int j = i-1; j > 0; j--){
+                if(secretWord.charAt(i) == secretWord.charAt(j)){
+                    decLettersRemaining();
+                    //If the letter appears many times in the secret word, it will be counted just once.
                     break;
                 }
             }
         }
+        setGameState(state);
     }   
 
 
@@ -43,7 +43,7 @@ public class NormalHangMan extends HangmanGame{
     public boolean isWin()
     {
         if(numGuessesRemaining() == 0)
-            return false;//if the user have no chance to guess again, it means the user loses.
+            return false;
         else
             return true;
     }
@@ -60,11 +60,11 @@ public class NormalHangMan extends HangmanGame{
     @Override
     public boolean makeGuess(char ch)
     {
-    	if (Character.isLetter(ch) == false) return false;
-        boolean tempB = true;
-        char letterGuess = ch;
-        int i;
-        for(i = 0; i < getSecretWord().length(); i++)
+    	char letterGuess = ch;
+    	if (!Character.isLetter(ch) || repeatInput(letterGuess)) return false;
+    	
+        boolean guessResult = true;
+        for(int i = 0; i < getSecretWord().length(); i++)
         {
             if(getSecretWord().charAt(i) == letterGuess)//if the user guess right, adjust the current state.
             {
@@ -77,32 +77,28 @@ public class NormalHangMan extends HangmanGame{
                     }
                     else
                     {
-                        temp = temp + displayGameState().charAt(2*j) + displayGameState().charAt(2*j+1);              
+                        temp = temp + displayGameState().charAt(2*j) + displayGameState().charAt(2*j+1);
+                        //taking spaces in the state into account with this line here
                     }
                 }
                 setGameState(temp);
-                tempB = true;
+                guessResult = true;
                 break;
             }
             else
             {
-                tempB = false;
+                guessResult = false;
             }
         }
-        if(!RepeatInput(letterGuess))
-        {
-        	addGuessedLetter(letterGuess);
-            if(tempB)
-            {
-                decLettersRemaining();
-            }
-            else
-            {
-                decGuessesRemaining();
-            }
-            return tempB;
+        
+        addGuessedLetter(letterGuess);
+        if(guessResult){
+        	decLettersRemaining();
         }
-        else return false;
+        else{
+        	decGuessesRemaining();
+        }
+        return guessResult; 
     }
    
 }

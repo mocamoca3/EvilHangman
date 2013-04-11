@@ -93,13 +93,12 @@ public class HangmanGame{
     }
     
     //setter method for letterGuessHistory
-    //will only be used by NormalHangMan
     protected void setLetterHistory(ArrayList<Character> history){
     	letterGuessHistory = history;
     }
   
     //method that checks whether a character already exists in the LetterGuessHistory
-    protected boolean RepeatInput(char c)
+    protected boolean repeatInput(char c)
     {
     	return letterGuessHistory.contains(c);
     }
@@ -153,7 +152,7 @@ public class HangmanGame{
                 String RealSecretString = game.getSecretWord();
                 int GuessRemaining = game.numGuessesRemaining();
                 ArrayList<Character> LetterHistory = game.lettersGuessed();
-                game = new NormalHangMan(RealSecretString, GuessRemaining, LetterHistory);//turn the evil to regular hangman
+                game = new NormalHangman(RealSecretString, GuessRemaining, LetterHistory);//turn the evil to regular hangman
                 game.isEvil = false;
                 game.setText = "Yes!";
                 game.makeGuess(nextLetter);
@@ -161,16 +160,16 @@ public class HangmanGame{
             }
             else
             {
-                setText = "Yes!";
+                game.setText = "Yes!";
             }
         }
         else
         {
-            setText = "Nope!";
+            game.setText = "Nope!";
         }
         //POSSIBLE MOVE BEGIN
         label2.setText("Secret Word: " + game.displayGameState());
-        label3.setText(String.valueOf("Guesses Remaining: " + game.numGuessesRemaining()));
+        label3.setText("Guesses Remaining: " + "" + game.numGuessesRemaining());
         if(game.gameOver())
         {
             if(game.isWin())

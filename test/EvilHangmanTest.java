@@ -9,12 +9,11 @@ import org.junit.Test;
 
 public class EvilHangmanTest {
 	
-	private EvilHangMan hm;
-	private final String WORD = "SPONGEBOB";
+	private EvilHangman hm;
 
 	@Before
 	public void setUp() throws Exception {
-		hm = new EvilHangMan(6, 8);
+		hm = new EvilHangman(6, 8);
 	}
 	
 	@Test
@@ -90,7 +89,7 @@ public class EvilHangmanTest {
 	@Test
 	public void testWin() {
 		// correctly guess the word and see if the game ends
-		hm = new EvilHangMan(4, 16);
+		hm = new EvilHangman(4, 16);
 		hm.makeGuess('A');
 		hm.makeGuess('E');
 		hm.makeGuess('I');

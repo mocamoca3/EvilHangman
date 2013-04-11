@@ -12,8 +12,8 @@ import org.junit.Test;
 
 public class ControllerTest {
 	
-	private EvilHangMan evilhm;
-	private NormalHangMan normalhm;
+	private EvilHangman evilhm;
+	private NormalHangman normalhm;
 	private HangmanGame evilWin;
 	private ArrayList<Character> history;
 	private JLabel label2;
@@ -22,10 +22,10 @@ public class ControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		evilhm = new EvilHangMan(6, 8);
-		evilWin = new EvilHangMan(4, 16);
+		evilhm = new EvilHangman(6, 8);
+		evilWin = new EvilHangman(4, 16);
 		history = new ArrayList<Character>();
-		normalhm = new NormalHangMan("ABHORS", 8, history);
+		normalhm = new NormalHangman("ABHORS", 8, history);
 		
 		label2 = new JLabel("Secret Word: "+ normalhm.displayGameState());
 		label2.setFont(new Font("Default",Font.PLAIN,23));
